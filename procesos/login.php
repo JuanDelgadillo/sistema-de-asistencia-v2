@@ -10,7 +10,7 @@ if(isset($_POST['ingresar']))
 
     $usuario = mysql_real_escape_string($_POST['user']);
     $contrasena = mysql_real_escape_string($_POST['contrasena']);
-    $contrasena = base64_encode($contrasena);
+    //$contrasena = base64_encode($contrasena);
 
     $sql = mysql_query(" SELECT * FROM registro WHERE usuario = '".$usuario."' AND contrasena = '".$contrasena."' ")or die("Error al Validar la Contraseña");
 

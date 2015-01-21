@@ -1,3 +1,10 @@
+<?php  
+
+include_once "config/conection.php";
+
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +13,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Andia - Responsive Agency Template</title>
+        <title>Sistema de asistencia</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -17,13 +24,7 @@
         <link rel="stylesheet" href="assets/css/form-elements.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="assets/css/style_login.css">
 
         <!-- Favicon and touch icons -->
         <link rel="shortcut icon" href="assets/ico/favicon.ico">
@@ -48,6 +49,7 @@
 						<li  class="dropdown active">
 							<a href=""><i class="fa fa-home"></i><br>Inicio</a>
 						</li>
+                        <?php if(isset($_SESSION['usuario'])){ ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown" data-delay="100">
                                 <i class="fa fa-book"></i><br>Docente<span class="caret"></span>
@@ -78,13 +80,30 @@
 							<a href="#"><i class="fa fa-user"></i><br>Administrador</a>
 						</li>
                         <li>
-                            <a href="#"><i class="fa fa-sign-out"></i><br>Salir</a>
+                            <a href="procesos/salir.php"><i class="fa fa-sign-out"></i><br>Salir</a>
                         </li>
+                        <?php } ?>
 					</ul>
 				</div>
 			</div>
 		</nav>
-<br><br>
+<?php if(! isset($_SESSION['usuario'])){ ?>
+<div class="login-form">
+    <br><br>
+            <h1>Control de acceso</h1>
+                    <div class="head">
+                        <img src="assets/img/user.png" alt=""/>
+                    </div>
+                    <form method="POST" action="procesos/login.php">
+                        <input type="text" name="user" requiredvalue="Usuario" placeholder="Usuario">
+                        <input type="password" name="contrasena" required placeholder="Contraseña">
+                        <div class="submit">
+                            <input type="submit" name="ingresar" value="Iniciar sesión" >
+                    </div>
+                </form>
+            </div>
+
+<?php } if(isset($_SESSION['usuario'])){ ?>
         <!-- Presentation -->
         <div class="presentation-container">
         	<div class="container">
@@ -135,7 +154,9 @@
 	            </div>
 	        </div>
         </div>
-        <br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+<?php } ?>
+        
 
         <!-- Footer -->
         <footer>
@@ -165,6 +186,22 @@
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
         <script src="assets/js/jquery.ui.map.min.js"></script>
         <script src="assets/js/scripts.js"></script>
+
+<?php 
+
+if(isset($_SESSION['menssage']) && $_SESSION['menssage'] != "")
+{
+
+  printf("<script type='text/javascript' language='javascript'>
+
+  alert('".$_SESSION['menssage']."');
+
+    </script>");
+
+  unset($_SESSION['menssage']);
+}
+
+ ?>
 
     </body>
 

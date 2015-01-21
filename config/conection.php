@@ -2,8 +2,8 @@
 
 $host = "localhost";
 $user = "root";
-$pass = "salomon";
-$sdb = "ssistema_asistencia";
+$pass = "";
+$sdb = "sistema_asistencia";
 
 $conex = mysql_connect($host,$user,$pass)
 or die("No ha sido posible la coneccion al Servidor ".$host);
