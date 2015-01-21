@@ -162,7 +162,8 @@ ul.navbar-nav li.active .dropdown-menu > .active > a:focus { background: #9d426b
 .navbar-brand {
 	width: 167px;
 	height: 106px;
-	background: url(../img/logo.png) left center no-repeat;
+	background: url(../img/asistencia.png) left center no-repeat;
+    background-size:100% 100%;
 	text-indent: -99999px;
 }
 
