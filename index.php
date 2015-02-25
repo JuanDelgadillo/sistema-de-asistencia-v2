@@ -41,35 +41,38 @@ session_start();
 		<nav class="navbar" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.html">Sistema de asistencia</a>
+					<a class="navbar-brand" href="">Sistema de asistencia</a>
 				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="top-navbar-1">
-					<ul class="nav navbar-nav navbar-right">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="top-navbar-1">
+                <?php if(! isset($_SESSION['user'])){ ?>
+                    <span id="titulo" style="font-weight:bold;color:black;font-size:25px;"><br>Escuela Básica Estudiantil Dr. Orangel Rodríguez</span>
+				<?php } ?>
+                    <ul class="nav navbar-nav navbar-right">
 						<li  class="dropdown active">
 							<a href=""><i class="fa fa-home"></i><br>Inicio</a>
 						</li>
-                        <?php if(isset($_SESSION['usuario'])){ ?>
+                        <?php if(isset($_SESSION['user'])){ ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown" data-delay="100">
                                 <i class="fa fa-book"></i><br>Docente<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="#">Registro</a></li>
+                                <li><a href="modulos/registro_docente.php">Registro</a></li>
                                 <li><a href="#">Asistencia</a></li>
                             </ul>
                         </li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-institution"></i><br>Administrativo<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="#">Registro</a></li>
+                                <li><a href="modulos/registro_administrativo.php">Registro</a></li>
                                 <li><a href="#">Asistencia</a></li>
                             </ul>
 						</li>
 						<li  class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-briefcase"></i><br>Obrero<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <li><a href="#">Registro</a></li>
+                                <li><a href="modulos/registro_obrero.php">Registro</a></li>
                                 <li><a href="#">Asistencia</a></li>
                             </ul>
 						</li>
@@ -87,7 +90,7 @@ session_start();
 				</div>
 			</div>
 		</nav>
-<?php if(! isset($_SESSION['usuario'])){ ?>
+<?php if(! isset($_SESSION['user'])){ ?>
 <div class="login-form">
     <br><br>
             <h1>Control de acceso</h1>
@@ -103,7 +106,7 @@ session_start();
                 </form>
             </div>
 
-<?php } if(isset($_SESSION['usuario'])){ ?>
+<?php } if(isset($_SESSION['user'])){ ?>
         <!-- Presentation -->
         <div class="presentation-container">
         	<div class="container">

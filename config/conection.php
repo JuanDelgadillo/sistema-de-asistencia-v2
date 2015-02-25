@@ -2,7 +2,7 @@
 
 $host = "localhost";
 $user = "root";
-$pass = "";
+$pass = "salomon";
 $sdb = "sistema_asistencia";
 
 $conex = mysql_connect($host,$user,$pass)
