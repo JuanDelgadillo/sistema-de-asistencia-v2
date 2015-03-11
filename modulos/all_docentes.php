@@ -33,6 +33,38 @@ session_start();
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
 
+        <style type="text/css">
+
+table { 
+  margin: 10px 0 30px 0;
+}
+
+table tr th, table tr td { 
+  background: #9d426b;
+  color: #FFF;
+  padding: 7px 4px;
+  text-align: left;
+  border:1px solid white;
+}
+
+table tr td { 
+  background: #D3F2F7;
+  color: #47433F;
+  border-top: 1px solid #FFF;
+  padding: 7px;
+}
+
+    #auditoria {
+        width:100%;
+        height:400px;
+        overflow: scroll;
+        overflow-y:auto;
+        background-color: #EEE;
+        margin:0 auto;
+        }
+
+  </style>
+
     </head>
 
     <body>
@@ -105,9 +137,46 @@ session_start();
         <!-- Services -->
         <div class="services-container">
             <div class="container">
-                <div class="row" style="border:1px solid black;">
+                <div class="row">
                     <div class="col-sm-12">
-                        
+                        <div class="section group">
+              <div>
+                      <div id="auditoria">
+        <table style="width:1900px; margin-top:0;" >
+          <tr>
+            <th style="text-align:center;">Cedula</th>
+            <th style="text-align:center;">Nombre</th>
+            <th style="text-align:center;">Apellido</th>
+            <th style="text-align:center;">Sexo</th>
+            <th style="text-align:center;">Fecha de Nacimiento</th>
+            <th style="text-align:center;">Grado de instrucción</th>
+            <th style="text-align:center;">Turno</th>
+            <th style="text-align:center;">Especialidad</th>
+            <th style="text-align:center;">Asignatura</th>
+            <th style="text-align:center;">Operaciones</th>
+          </tr>
+          <?php
+
+          $docentes = mysql_query("SELECT * FROM persona, docente WHERE persona.cedula = docente.cedula ");
+
+          while ($row = mysql_fetch_assoc($docentes))
+          {
+          ?>
+          <tr>
+            <td style="text-align:center;"><?=$row['cedula']?></td>
+            <td style="text-align:center;"><?=$row['nombre']?></td>
+            <td style="text-align:center;"><?=$row['apellido']?></td>
+            <td style="text-align:center;"><?=$row['sexo']?></td>
+            <td style="text-align:center;"><?=$row['fecha_nac']?></td>
+            <td style="text-align:center;"><?=$row['grado_instruccion']?></td>
+            <td style="text-align:center;"><?=$row['turno']?></td>
+            <td style="text-align:center;"><?=$row['especialidad']?></td>
+            <td style="text-align:center;"><?=$row['asignatura']?></td>
+            <td style="text-align:center;"><a href="registro_docente.php?cedula=<?=$row['cedula']?>">Actualizar</a> - <a href="../procesos/delete.php?cedula=<?=$row['cedula']?>&categoria=Docente">Eliminar</a></td>
+          </tr>
+         <?php } ?>
+        </table>
+      </div>
                     </div>
                    
                 </div>

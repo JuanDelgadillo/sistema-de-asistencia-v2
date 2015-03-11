@@ -149,8 +149,8 @@ session_start();
 	                <div class="col-sm-3">
 		                <div class="service wow fadeInDown">
 		                    <div class="service-icon"><i class="fa fa-user"></i></div>
-		                    <h3>Administradores</h3>
-		                    <p>Información acercá de las cuentas Administrativas del sistema</p>
+		                    <h3>Usuarios</h3>
+		                    <p>Información acercá de las cuentas de usuario del sistema</p>
 		                    <a class="big-link-1" href="modulos/all_administradores.php">Ver</a>
 		                </div>
 	                </div>

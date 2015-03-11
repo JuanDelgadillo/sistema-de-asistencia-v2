@@ -9,7 +9,7 @@ textarea {
     font-family: 'Open Sans', sans-serif;
     font-size: 13px;
     font-weight: 400;
-    color: #888;
+    color: black;
     font-style: italic;
     -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
     -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
@@ -23,9 +23,9 @@ textarea:focus {
     -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
 }
 
-input[type="text"], input[type="password"]:-moz-placeholder, textarea:-moz-placeholder { color: #ccc; }
-input[type="text"], input[type="password"]:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #ccc; }
-input[type="text"], input[type="password"]::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #ccc; }
+input[type="text"], input[type="password"]:-moz-placeholder, textarea:-moz-placeholder { color: black; }
+input[type="text"], input[type="password"]:-ms-input-placeholder, textarea:-ms-input-placeholder { color: black; }
+input[type="text"], input[type="password"]::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: black; }
 
 
 button.btn {

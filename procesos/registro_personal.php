@@ -53,7 +53,7 @@ if(isset($aceptar))
     }
     elseif($categoria == "Obrero")
     {
-        $data_obrero = mysql_query("INSERT INTO docente (cedula, turno, area) VALUES ('$cedula','$turno','$area')");
+        $data_obrero = mysql_query("INSERT INTO obrero (cedula, turno, area) VALUES ('$cedula','$turno','$area')");
         $user = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 4) ");
         header("Location:../modulos/registro_obrero.php");
     }
