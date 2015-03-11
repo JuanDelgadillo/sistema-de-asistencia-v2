@@ -127,7 +127,7 @@ session_start();
 		                    <div class="service-icon"><i class="fa fa-users"></i></div>
 		                    <h3>Docente(s)</h3>
 		                    <p>Información acercá del personal Docente &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-		                    <a class="big-link-1" href="#">Ver</a>
+		                    <a class="big-link-1" href="modulos/all_docentes.php">Ver</a>
 		                </div>
 					</div>
 					<div class="col-sm-3">
@@ -135,7 +135,7 @@ session_start();
 		                    <div class="service-icon"><i class="fa fa-users"></i></div>
 		                    <h3>Administrativo(s)</h3>
 		                    <p>Información acercá del personal Administrativo</p>
-		                    <a class="big-link-1" href="#">Ver</a>
+		                    <a class="big-link-1" href="modulos/all_administrativos.php">Ver</a>
 		                </div>
 	                </div>
 	                <div class="col-sm-3">
@@ -143,7 +143,7 @@ session_start();
 		                    <div class="service-icon"><i class="fa fa-users"></i></div>
 		                    <h3>Obrero(s)</h3>
 		                    <p>Información acercá del personal Obrero&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-		                    <a class="big-link-1" href="#">Ver</a>
+		                    <a class="big-link-1" href="modulos/all_obreros.php">Ver</a>
 		                </div>
 	                </div>
 	                <div class="col-sm-3">
@@ -151,7 +151,7 @@ session_start();
 		                    <div class="service-icon"><i class="fa fa-user"></i></div>
 		                    <h3>Administradores</h3>
 		                    <p>Información acercá de las cuentas Administrativas del sistema</p>
-		                    <a class="big-link-1" href="#">Ver</a>
+		                    <a class="big-link-1" href="modulos/all_administradores.php">Ver</a>
 		                </div>
 	                </div>
 	            </div>
