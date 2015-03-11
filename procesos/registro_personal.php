@@ -51,9 +51,13 @@ if(isset($aceptar))
         $data_obrero = mysql_query("INSERT INTO docente (cedula, turno, area) VALUES ('$cedula','$turno','$area')");
         $user = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 4) ");
     }
+    elseif($categoria == "Administrador")
+    {
+        var_dump($_REQUEST);
+    }
 
-    $_SESSION['menssage'] = "La persona se ha registrado satisfactoriamente.";
-    header("Location:../modulos/registro_docente.php");
+    //$_SESSION['menssage'] = "La persona se ha registrado satisfactoriamente.";
+    //header("Location:../modulos/registro_docente.php");
 }
 else
 {

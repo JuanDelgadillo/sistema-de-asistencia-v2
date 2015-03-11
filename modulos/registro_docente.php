@@ -107,7 +107,7 @@ label{
                             <a href="#"><i class="fa fa-print"></i><br>Reportes</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-user"></i><br>Administrador</a>
+                            <a href="registro_administrador.php"><i class="fa fa-user"></i><br>Administrador</a>
                         </li>
                         <li>
                             <a href="../procesos/salir.php"><i class="fa fa-sign-out"></i><br>Salir</a>
