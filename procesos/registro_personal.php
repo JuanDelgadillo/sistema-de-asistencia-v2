@@ -31,33 +31,41 @@ if(isset($aceptar))
             header("Location:../modulos/registro_docente.php");
         elseif($categoria == "Obrero")
             header("Location:../modulos/registro_obrero.php");
+        elseif($categoria == "Administrador")
+            header("Location:../modulos/registro_administrador.php");
 
         die();
     }
+
+    $_SESSION['menssage'] = "La persona se ha registrado satisfactoriamente.";
 
     if($categoria == "Administrativo")
     {
         $data_administrativo = mysql_query("INSERT INTO administrativo (cedula, turno, especialidad, area) VALUES ('$cedula','$turno','$especialidad','$area')");
         $user = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 3) ");
+        header("Location:../modulos/registro_administrativo.php");
     }
     elseif($categoria == "Docente")
     {
         $data_docente = mysql_query("INSERT INTO docente (cedula, turno, especialidad, asignatura) VALUES ('$cedula','$turno','$especialidad','$asignatura')");
         $user = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 2) ");
-
+        header("Location:../modulos/registro_docente.php");
     }
     elseif($categoria == "Obrero")
     {
         $data_obrero = mysql_query("INSERT INTO docente (cedula, turno, area) VALUES ('$cedula','$turno','$area')");
         $user = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 4) ");
+        header("Location:../modulos/registro_obrero.php");
     }
     elseif($categoria == "Administrador")
     {
-        var_dump($_REQUEST);
+        $data_administrador = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 1) ");
+        $_SESSION['menssage'] = "El administrador se ha registrado satisfactoriamente.";
+        header("Location:../modulos/registro_administrador.php");
     }
 
-    //$_SESSION['menssage'] = "La persona se ha registrado satisfactoriamente.";
-    //header("Location:../modulos/registro_docente.php");
+    
+    
 }
 else
 {

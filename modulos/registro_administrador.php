@@ -136,15 +136,15 @@ label{
             <div class="container">
                 <div class="row">
                     <div class="col-sm-5 contact-form wow fadeInLeft">
-                        <form role="form" name="registro_administrador" action="../procesos/registro_personal.php" method="post">
+                        <form role="form" name="registro_docente" action="../procesos/registro_personal.php" method="post">
                             <input type="hidden" name="categoria" value="Administrador">
                             <div class="form-group">
                                 <label for="contact-name">Cedula</label>
-                                <input type="text" name="cedula" placeholder="Cedula" class="contact-name" id="contact-name">
+                                <input type="text" name="cedula" placeholder="Cedula" class="contact-name" id="contact-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-email">Apellido</label>
-                                <input type="text" name="apellido" placeholder="Apellido" class="contact-email" id="contact-email">
+                                <input type="text" name="apellido" placeholder="Apellido" class="contact-email" id="contact-email" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-subject">Fecha de nacimiento</label><br>
@@ -174,7 +174,7 @@ label{
                             </div>
                             <div class="form-group">
                                 <label for="contact-subject">Grado de instrucción</label>
-                                <input type="text" name="grado_instruccion" placeholder="Grado de instrucción" class="contact-subject" id="contact-subject">
+                                <input type="text" name="grado_instruccion" placeholder="Grado de instrucción" class="contact-subject" id="contact-subject" required>
                             </div>
                             <button type="submit" name="aceptar" class="btn">Aceptar</button>
                         
@@ -183,7 +183,7 @@ label{
                         <br>
                         <div class="form-group">
                                 <label for="contact-name">Nombre</label>
-                                <input type="text" name="nombre" placeholder="Nombre" class="contact-name" id="contact-name">
+                                <input type="text" name="nombre" placeholder="Nombre" class="contact-name" id="contact-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-email">Sexo</label><br>
