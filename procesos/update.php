@@ -53,9 +53,10 @@ if(isset($aceptar))
     elseif($categoria == "Administrador")
     {
         //var_dump($_REQUEST);
-        //$data_administrador = mysql_query("INSERT INTO users (cedula, user, password, rol) VALUES ('$cedula','$cedula','$password', 1) ");
-        //$_SESSION['menssage'] = "El administrador se ha registrado satisfactoriamente.";
-        //header("Location:../modulos/registro_administrador.php");
+        $password = base64_encode($password);
+        $data_administrador = mysql_query("UPDATE users SET user = '$user', password = '$password' WHERE cedula = '$cedula' ");
+        $_SESSION['menssage'] = "Los datos del usuario se actualizaron satisfactoriamente.";
+        header("Location:../modulos/all_administradores.php");
     }
 
 

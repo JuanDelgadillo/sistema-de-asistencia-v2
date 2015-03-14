@@ -4,6 +4,43 @@ include_once "config/conection.php";
 
 session_start();
 
+if(isset($_SESSION['user']) && $_SESSION['rol'] != 1)
+{
+    $cedula = $_SESSION['cedula_user'];
+    $rol = $_SESSION['rol'];
+    $fecha = date("Y-m-d");
+    $verificar_asistencia = mysql_query("SELECT * FROM asistencia WHERE cedula = '$cedula' AND fecha = '$fecha' ");
+    $persona = mysql_fetch_assoc($verificar_asistencia);
+
+    if($persona['verificacion_entrada'] == "Asistencia")
+    {
+        $urlEntrada = "javascript:alert('Ya has registrado la asistencia de entrada.')";
+        $classEntrada = "fa-check";
+        $mensajeEntrada = "Asistencia de entrada registrada";
+    }
+    
+    if($persona['verificacion_salida'] == "Asistencia")
+    {
+        $urlSalida = "javascript:alert('Ya has registrado la asistencia de salida.')";
+        $classSalida = "fa-check";
+        $mensajeSalida = "Asistencia de salida registrada";
+    }
+    
+    if($persona['verificacion_entrada'] == "Inasistente")
+    {
+        $urlEntrada = "procesos/asistencia.php?cedula=".$cedula."&asistencia=Entrada&category=".$rol;
+        $classEntrada = "fa-sign-in";
+        $mensajeEntrada = "Registrar asistencia de entrada";
+    }
+    
+    if($persona['verificacion_salida'] == "Inasistente")
+    {
+        $urlSalida = "procesos/asistencia.php?cedula=".$cedula."&asistencia=Salida&category=".$rol;
+        $classSalida = "fa-sign-out";
+        $mensajeSalida = "Registrar asistencia de salida";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,14 +82,14 @@ session_start();
 				</div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="top-navbar-1">
-                <?php if(! isset($_SESSION['user'])){ ?>
+                <?php if(! isset($_SESSION['user']) || isset($_SESSION['user']) && $_SESSION['rol'] != 1){ ?>
                     <span id="titulo" style="font-weight:bold;color:black;font-size:25px;"><br>Escuela Básica Estudiantil Dr. Orangel Rodríguez</span>
 				<?php } ?>
                     <ul class="nav navbar-nav navbar-right">
 						<li  class="dropdown active">
 							<a href=""><i class="fa fa-home"></i><br>Inicio</a>
 						</li>
-                        <?php if(isset($_SESSION['user'])){ ?>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['rol'] == 1){ ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown" data-delay="100">
                                 <i class="fa fa-book"></i><br>Docente<span class="caret"></span>
@@ -82,10 +119,12 @@ session_start();
 						<li>
 							<a href="modulos/registro_administrador.php"><i class="fa fa-user"></i><br>Administrador</a>
 						</li>
+                        <?php } ?>
+                         <?php if(isset($_SESSION['user'])){ ?>
                         <li>
                             <a href="procesos/salir.php"><i class="fa fa-sign-out"></i><br>Salir</a>
                         </li>
-                        <?php } ?>
+                         <?php } ?>
 					</ul>
 				</div>
 			</div>
@@ -106,7 +145,7 @@ session_start();
                 </form>
             </div>
 
-<?php } if(isset($_SESSION['user'])){ ?>
+<?php } if(isset($_SESSION['user']) && $_SESSION['rol'] == 1){ ?>
         <!-- Presentation -->
         <div class="presentation-container">
         	<div class="container">
@@ -158,6 +197,46 @@ session_start();
 	        </div>
         </div>
 <br><br><br><br><br><br><br><br><br>
+<?php } elseif(isset($_SESSION['user']) && $_SESSION['rol'] != 1){ ?>
+ <!-- Presentation -->
+        <div class="presentation-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeInLeftBig">
+                        <h1>Control de asistencia</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services -->
+        <div class="services-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="service wow fadeInDown">
+                            <div class="service-icon"><i class="fa <?=$classEntrada?>"></i></div>
+                            <h3>Entrada</h3>
+                            <p><?=$mensajeEntrada?></p>
+                            <a class="big-link-1" href="<?=$urlEntrada?>">Aceptar</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="service wow fadeInUp">
+                            <div class="service-icon"><i class="fa <?=$classSalida?>"></i></div>
+                            <h3>Salida</h3>
+                            <p><?=$mensajeSalida?></p>
+                            <a class="big-link-1" href="<?=$urlSalida?>">Aceptar</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+<br><br><br><br><br><br><br><br><br>
 <?php } ?>
         
 
@@ -186,7 +265,6 @@ session_start();
         <script src="assets/flexslider/jquery.flexslider-min.js"></script>
         <script src="assets/js/jflickrfeed.min.js"></script>
         <script src="assets/js/masonry.pkgd.min.js"></script>
-        <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
         <script src="assets/js/jquery.ui.map.min.js"></script>
         <script src="assets/js/scripts.js"></script>
 

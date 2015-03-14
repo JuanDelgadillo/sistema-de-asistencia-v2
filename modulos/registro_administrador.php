@@ -3,10 +3,40 @@
 include_once "../config/conection.php";
 
 session_start();
-
+extract($_REQUEST);
 if(! isset($_SESSION['user']))
 {
   header("Location:../");
+}
+
+if(isset($cedula))
+{
+    $admin = mysql_fetch_assoc(mysql_query("SELECT * FROM persona, users WHERE persona.cedula = '$cedula' AND users.cedula = persona.cedula "));
+    $titulo = "<h1>Actualizar Administrador /</h1><p>Formulario para actualizar un administrador</p>";
+    $action_form = "../procesos/update.php";
+    $cedula = $admin['cedula'];
+    $nombre = $admin['nombre'];
+    $apellido = $admin['apellido'];
+    $sexo = $admin['sexo'];
+    $admin['fecha_nac'] = explode("-",$admin['fecha_nac']);
+    list($ano,$mes,$dia)=$admin['fecha_nac'];
+    $grado_instruccion = $admin['grado_instruccion'];
+    $user = $admin['user'];
+    $password = base64_decode($admin['password']);
+}
+else
+{
+    $titulo = "<h1>Registro Administrador /</h1><p>Formulario para registrar un administrador</p>";
+    $action_form = "../procesos/registro_personal.php";
+    $cedula = "";
+    $nombre = "";
+    $ano = "";
+    $mes = "";
+    $dia = "";
+    $apellido = "";
+    $sexo = "";
+    $fecha_nac = "";
+    $grado_instruccion = "";
 }
 
 ?>
@@ -136,70 +166,75 @@ label{
             <div class="container">
                 <div class="row">
                     <div class="col-sm-5 contact-form wow fadeInLeft">
-                        <form role="form" name="registro_docente" action="../procesos/registro_personal.php" method="post">
+                        <form role="form" name="registro_docente" action="<?=$action_form?>" method="post">
                             <input type="hidden" name="categoria" value="Administrador">
+                            <input type="hidden" name="cedula_get" value="<?=$cedula?>">
+                            <div class="form-group">
+                                <label for="contact-name">Nombre de usuario</label>
+                                <input type="text" name="user" value="<?=$user?>" placeholder="Nombre de usuario" class="contact-name" id="contact-name" required>
+                            </div>
                             <div class="form-group">
                                 <label for="contact-name">Cedula</label>
-                                <input type="text" name="cedula" placeholder="Cedula" class="contact-name" id="contact-name" required>
+                                <input type="text" name="cedula" value="<?=$cedula?>" placeholder="Cedula" class="contact-name" id="contact-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-email">Apellido</label>
-                                <input type="text" name="apellido" placeholder="Apellido" class="contact-email" id="contact-email" required>
+                                <input type="text" name="apellido" value="<?=$apellido?>" placeholder="Apellido" class="contact-email" id="contact-email" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-subject">Fecha de nacimiento</label><br>
                                 <select style="width:17%;" name="dia_nac" required>
                                     <option value="">D&iacute;a</option>
+                                    <?php if($cedula != ""){ ?>
+                                    <option selected value="<?=$dia?>"><?=$dia?></option>
+                                    <?php } ?>
                                 </select>
                                 <select style="width:25%;" name="mes_nac" onchange="d_m_fnac();" required>
                                     <option value="0">Mes</option>
-                                    <option value="1">Enero</option>
-                                    <option value="2">Febrero</option>
-                                    <option value="3">Marzo</option>
-                                    <option value="4">Abril</option>
-                                    <option value="5">Mayo</option>
-                                    <option value="6">Junio</option>
-                                    <option value="7">Julio</option>
-                                    <option value="8">Agosto</option>
-                                    <option value="9">Septiembre</option>
-                                    <option value="10">Octubre</option>
-                                    <option value="11">Noviembre</option>
-                                    <option value="12">Diciembre</option></select>
+                                    <option <?php if($mes == 1) echo "SELECTED" ?> value="1">Enero</option>
+                                    <option <?php if($mes == 2) echo "SELECTED" ?> value="2">Febrero</option>
+                                    <option <?php if($mes == 3) echo "SELECTED" ?> value="3">Marzo</option>
+                                    <option <?php if($mes == 4) echo "SELECTED" ?> value="4">Abril</option>
+                                    <option <?php if($mes == 5) echo "SELECTED" ?> value="5">Mayo</option>
+                                    <option <?php if($mes == 6) echo "SELECTED" ?> value="6">Junio</option>
+                                    <option <?php if($mes == 7) echo "SELECTED" ?> value="7">Julio</option>
+                                    <option <?php if($mes == 8) echo "SELECTED" ?> value="8">Agosto</option>
+                                    <option <?php if($mes == 9) echo "SELECTED" ?> value="9">Septiembre</option>
+                                    <option <?php if($mes == 10) echo "SELECTED" ?> value="10">Octubre</option>
+                                    <option <?php if($mes == 11) echo "SELECTED" ?> value="11">Noviembre</option>
+                                    <option <?php if($mes == 12) echo "SELECTED" ?> value="12">Diciembre</option></select>
                                 <select style="width:18%;margin-right: 2em;" name="ano_nac" onchange="d_m_fnac();" required>
                                     <option value="">Año</option>
                                     <?php for($x = 2015; $x > 1940; $x--){ ?>
-                                    <option value="<?=$x?>" ><?=$x?></option>
+                                    <option <?php if($ano == $x) echo "SELECTED" ?> value="<?=$x?>" ><?=$x?></option>
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="contact-subject">Grado de instrucción</label>
-                                <input type="text" name="grado_instruccion" placeholder="Grado de instrucción" class="contact-subject" id="contact-subject" required>
-                            </div>
+                            <br><br>
                             <button type="submit" name="aceptar" class="btn">Aceptar</button>
                         
                     </div>
                     <div class="col-sm-5 contact-form wow fadeInRight">
                         <br>
                         <div class="form-group">
+                                <label for="contact-name">Contraseña</label>
+                                <input type="password" name="password" value="<?=$password?>" placeholder="Contraseña" class="contact-name" id="contact-name" required>
+                            </div>
+                        <div class="form-group">
                                 <label for="contact-name">Nombre</label>
-                                <input type="text" name="nombre" placeholder="Nombre" class="contact-name" id="contact-name" required>
+                                <input type="text" name="nombre" value="<?=$nombre?>" placeholder="Nombre" class="contact-name" id="contact-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-email">Sexo</label><br>
                                 <select class="sexo" name="sexo" required>
                                     <option value="">- Sexo -</option>
-                                    <option value="Hombre">Hombre</option>
-                                    <option value="Mujer">Mujer</option>
+                                    <option <?php if($sexo == "Hombre") echo "SELECTED" ?> value="Hombre">Hombre</option>
+                                    <option <?php if($sexo == "Mujer") echo "SELECTED" ?> value="Mujer">Mujer</option>
                                   </select>
                             </div>
                             <div class="form-group">
-                                <label for="contact-subject">Turno</label><br> 
-                                <select style="width:25%;" class="sexo" name="turno" required>
-                                    <option value="">- Turno -</option>
-                                    <option value="Mañana">Mañana</option>
-                                    <option value="Tarde">Tarde</option>
-                                  </select>
+                                <label for="contact-subject">Grado de instrucción</label>
+                                <input type="text" name="grado_instruccion" value="<?=$grado_instruccion?>" placeholder="Grado de instrucción" class="contact-subject" id="contact-subject" required>
                             </div>
                         </form>
                     </div>
