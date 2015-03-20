@@ -8,36 +8,61 @@ if(! isset($_SESSION['user']))
 {
   header("Location:../");
 }
+    $classDocente = "";
+    $classAdministrativo = "";
+    $classObrero = "";
 
-if(isset($cedula))
-{
-    $admin = mysql_fetch_assoc(mysql_query("SELECT * FROM persona, users WHERE persona.cedula = '$cedula' AND users.cedula = persona.cedula "));
-    $titulo = "<h1>Actualizar Administrador /</h1><p>Formulario para actualizar un administrador</p>";
-    $action_form = "../procesos/update.php";
-    $cedula = $admin['cedula'];
-    $nombre = $admin['nombre'];
-    $apellido = $admin['apellido'];
-    $sexo = $admin['sexo'];
-    $admin['fecha_nac'] = explode("-",$admin['fecha_nac']);
-    list($ano,$mes,$dia)=$admin['fecha_nac'];
-    $grado_instruccion = $admin['grado_instruccion'];
-    $user = $admin['user'];
-    $password = base64_decode($admin['password']);
-}
-else
-{
-    $titulo = "<h1>Registro Administrador /</h1><p>Formulario para registrar un administrador</p>";
-    $action_form = "../procesos/registro_personal.php";
-    $cedula = "";
-    $nombre = "";
-    $ano = "";
-    $mes = "";
-    $dia = "";
-    $apellido = "";
-    $sexo = "";
-    $fecha_nac = "";
-    $grado_instruccion = "";
-}
+    if($categoria == "Administrativo") $classAdministrativo = "active";
+    if($categoria == "Docente") $classDocente = "active";
+    if($categoria == "Obrero") $classObrero = "active";
+    
+    if(isset($cedula))
+    {
+        $verificar_cedula = mysql_query("SELECT * FROM persona, users WHERE persona.cedula = '$cedula' AND users.cedula = persona.cedula ");
+        if(mysql_num_rows($verificar_cedula) != 0)
+        {   
+            $fecha = date("Y-m-d");
+            $verificar_asistencia = mysql_query("SELECT * FROM asistencia, users, persona WHERE asistencia.cedula = '$cedula' AND asistencia.fecha = '$fecha' AND users.cedula = asistencia.cedula AND persona.cedula = asistencia.cedula ");
+            $persona = mysql_fetch_assoc($verificar_asistencia);
+            $rol = $persona['rol'];
+
+            if($persona['verificacion_entrada'] == "Asistencia")
+            {
+                $urlEntrada = "javascript:alert('Ya ha registrado la asistencia de entrada.')";
+                $classEntrada = "fa-check";
+                $mensajeEntrada = "Asistencia de entrada registrada";
+            }
+            
+            if($persona['verificacion_salida'] == "Asistencia")
+            {
+                $urlSalida = "javascript:alert('Ya ha registrado la asistencia de salida.')";
+                $classSalida = "fa-check";
+                $mensajeSalida = "Asistencia de salida registrada";
+            }
+            
+            if($persona['verificacion_entrada'] == "Inasistente")
+            {
+                $urlEntrada = "../procesos/asistencia.php?cedula=".$cedula."&asistencia=Entrada&category=".$rol;
+                $classEntrada = "fa-sign-in";
+                $mensajeEntrada = "Registrar asistencia de entrada";
+            }
+            
+            if($persona['verificacion_salida'] == "Inasistente")
+            {
+                $urlSalida = "../procesos/asistencia.php?cedula=".$cedula."&asistencia=Salida&category=".$rol;
+                $classSalida = "fa-sign-out";
+                $mensajeSalida = "Registrar asistencia de salida";
+            }
+        }
+        else
+        {
+            $_SESSION['menssage'] = "La cedula $cedula no se encuentra registrada en el sistema.";
+            header("Location:asistencia.php?categoria=$categoria");
+            die();
+        }
+    }
+
+    $titulo = "<h1>Asistencia $categoria /</h1><p>Formulario para verificar y registrar la asistencia</p>";
 
 ?>
 <!DOCTYPE html>
@@ -110,7 +135,7 @@ label{
                             <a href="../"><i class="fa fa-home"></i><br>Inicio</a>
                         </li>
                         <?php if(isset($_SESSION['user'])){ ?>
-                        <li class="dropdown">
+                        <li class="dropdown <?=$classDocente?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"  data-hover="dropdown" data-delay="100">
                                 <i class="fa fa-book"></i><br>Docente<span class="caret"></span>
                             </a>
@@ -119,14 +144,14 @@ label{
                                 <li><a href="asistencia.php?categoria=Docente">Asistencia</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <li class="dropdown <?=$classAdministrativo?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-institution"></i><br>Administrativo<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="registro_administrativo.php">Registro</a></li>
                                 <li><a href="asistencia.php?categoria=Administrativo">Asistencia</a></li>
                             </ul>
                         </li>
-                        <li  class="dropdown">
+                        <li  class="dropdown <?=$classObrero?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-briefcase"></i><br>Obrero<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="registro_obrero.php">Registro</a></li>
@@ -136,8 +161,8 @@ label{
                         <li>
                             <a href="#"><i class="fa fa-print"></i><br>Reportes</a>
                         </li>
-                        <li class="active">
-                            <a href="#"><i class="fa fa-user"></i><br>Administrador</a>
+                        <li>
+                            <a href="registro_administrador.php"><i class="fa fa-user"></i><br>Administrador</a>
                         </li>
                         <li>
                             <a href="../procesos/salir.php"><i class="fa fa-sign-out"></i><br>Salir</a>
@@ -147,15 +172,14 @@ label{
                 </div>
             </div>
         </nav>
-        
+<?php if(! isset($cedula)){ ?>
         <!-- Page Title -->
         <div class="page-title-container">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 wow fadeIn">
                         <i class="fa fa-user"></i>
-                        <h1>Registro Administrador /</h1>
-                        <p>Formulario para registrar un administrador</p>
+                        <?=$titulo?>
                     </div>
                 </div>
             </div>
@@ -166,82 +190,64 @@ label{
             <div class="container">
                 <div class="row">
                     <div class="col-sm-5 contact-form wow fadeInLeft">
-                        <form role="form" name="registro_docente" action="<?=$action_form?>" method="post">
-                            <input type="hidden" name="categoria" value="Administrador">
-                            <input type="hidden" name="cedula_get" value="<?=$cedula?>">
-                            <div class="form-group">
-                                <label for="contact-name">Nombre de usuario</label>
-                                <input type="text" name="user" value="<?=$user?>" placeholder="Nombre de usuario" class="contact-name" id="contact-name" required>
-                            </div>
+                        <form role="form" name="registro_docente" action="" method="post">
+                            <input type="hidden" name="categoria" value="<?=$categoria?>">
                             <div class="form-group">
                                 <label for="contact-name">Cedula</label>
-                                <input type="text" name="cedula" value="<?=$cedula?>" placeholder="Cedula" class="contact-name" id="contact-name" required>
+                                <input type="text" name="cedula" placeholder="Cedula" class="contact-name" id="contact-name">
                             </div>
-                            <div class="form-group">
-                                <label for="contact-email">Apellido</label>
-                                <input type="text" name="apellido" value="<?=$apellido?>" placeholder="Apellido" class="contact-email" id="contact-email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-subject">Fecha de nacimiento</label><br>
-                                <select style="width:17%;" name="dia_nac" required>
-                                    <option value="">D&iacute;a</option>
-                                    <?php if($cedula != ""){ ?>
-                                    <option selected value="<?=$dia?>"><?=$dia?></option>
-                                    <?php } ?>
-                                </select>
-                                <select style="width:25%;" name="mes_nac" onchange="d_m_fnac();" required>
-                                    <option value="0">Mes</option>
-                                    <option <?php if($mes == 1) echo "SELECTED" ?> value="1">Enero</option>
-                                    <option <?php if($mes == 2) echo "SELECTED" ?> value="2">Febrero</option>
-                                    <option <?php if($mes == 3) echo "SELECTED" ?> value="3">Marzo</option>
-                                    <option <?php if($mes == 4) echo "SELECTED" ?> value="4">Abril</option>
-                                    <option <?php if($mes == 5) echo "SELECTED" ?> value="5">Mayo</option>
-                                    <option <?php if($mes == 6) echo "SELECTED" ?> value="6">Junio</option>
-                                    <option <?php if($mes == 7) echo "SELECTED" ?> value="7">Julio</option>
-                                    <option <?php if($mes == 8) echo "SELECTED" ?> value="8">Agosto</option>
-                                    <option <?php if($mes == 9) echo "SELECTED" ?> value="9">Septiembre</option>
-                                    <option <?php if($mes == 10) echo "SELECTED" ?> value="10">Octubre</option>
-                                    <option <?php if($mes == 11) echo "SELECTED" ?> value="11">Noviembre</option>
-                                    <option <?php if($mes == 12) echo "SELECTED" ?> value="12">Diciembre</option></select>
-                                <select style="width:18%;margin-right: 2em;" name="ano_nac" onchange="d_m_fnac();" required>
-                                    <option value="">Año</option>
-                                    <?php for($x = 2015; $x > 1940; $x--){ ?>
-                                    <option <?php if($ano == $x) echo "SELECTED" ?> value="<?=$x?>" ><?=$x?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <br><br>
+                            
                             <button type="submit" name="aceptar" class="btn">Aceptar</button>
                         
+                        </form>
                     </div>
                     <div class="col-sm-5 contact-form wow fadeInRight">
-                        <br>
-                        <div class="form-group">
-                                <label for="contact-name">Contraseña</label>
-                                <input type="password" name="password" value="<?=$password?>" placeholder="Contraseña" class="contact-name" id="contact-name" required>
-                            </div>
-                        <div class="form-group">
-                                <label for="contact-name">Nombre</label>
-                                <input type="text" name="nombre" value="<?=$nombre?>" placeholder="Nombre" class="contact-name" id="contact-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-email">Sexo</label><br>
-                                <select class="sexo" name="sexo" required>
-                                    <option value="">- Sexo -</option>
-                                    <option <?php if($sexo == "Hombre") echo "SELECTED" ?> value="Hombre">Hombre</option>
-                                    <option <?php if($sexo == "Mujer") echo "SELECTED" ?> value="Mujer">Mujer</option>
-                                  </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-subject">Grado de instrucción</label>
-                                <input type="text" name="grado_instruccion" value="<?=$grado_instruccion?>" placeholder="Grado de instrucción" class="contact-subject" id="contact-subject" required>
-                            </div>
-                        </form>
+                    </div>
+                </div>
+                        <br><br><br><br><br><br><br><br>
+            </div>
+        </div>
+<?php }else{ ?>
+<!-- Presentation -->
+        <div class="presentation-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 wow fadeInLeftBig">
+                        <h1>Control de asistencia de <?=$persona['nombre']." ".$persona['apellido']?></h1>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Services -->
+        <div class="services-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="service wow fadeInDown">
+                            <div class="service-icon"><i class="fa <?=$classEntrada?>"></i></div>
+                            <h3>Entrada</h3>
+                            <p><?=$mensajeEntrada?></p>
+                            <a class="big-link-1" href="<?=$urlEntrada?>">Aceptar</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="service wow fadeInUp">
+                            <div class="service-icon"><i class="fa <?=$classSalida?>"></i></div>
+                            <h3>Salida</h3>
+                            <p><?=$mensajeSalida?></p>
+                            <a class="big-link-1" href="<?=$urlSalida?>">Aceptar</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+<br><br><br><br><br><br><br><br><br>
+<?php } ?>
         <!-- Footer -->
         <footer>
             <div class="container">

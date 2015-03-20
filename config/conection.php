@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set("America/Caracas");
+
 $host = "localhost";
 $user = "root";
 $pass = "salomon";

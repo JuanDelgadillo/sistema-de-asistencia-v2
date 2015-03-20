@@ -118,21 +118,21 @@ label{
                             </a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="registro_docente.php">Registro</a></li>
-                                <li><a href="#">Asistencia</a></li>
+                                <li><a href="asistencia.php?categoria=Docente">Asistencia</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-institution"></i><br>Administrativo<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="registro_administrativo.php">Registro</a></li>
-                                <li><a href="#">Asistencia</a></li>
+                                <li><a href="asistencia.php?categoria=Administrativo">Asistencia</a></li>
                             </ul>
                         </li>
                         <li  class="dropdown active">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-briefcase"></i><br>Obrero<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="#">Registro</a></li>
-                                <li><a href="#">Asistencia</a></li>
+                                <li><a href="asistencia.php?categoria=Obrero">Asistencia</a></li>
                             </ul>
                         </li>
                         <li>

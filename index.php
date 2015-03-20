@@ -96,21 +96,21 @@ if(isset($_SESSION['user']) && $_SESSION['rol'] != 1)
                             </a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="modulos/registro_docente.php">Registro</a></li>
-                                <li><a href="#">Asistencia</a></li>
+                                <li><a href="modulos/asistencia.php?categoria=Docente">Asistencia</a></li>
                             </ul>
                         </li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-institution"></i><br>Administrativo<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="modulos/registro_administrativo.php">Registro</a></li>
-                                <li><a href="#">Asistencia</a></li>
+                                <li><a href="modulos/asistencia.php?categoria=Administrativo">Asistencia</a></li>
                             </ul>
 						</li>
 						<li  class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><i class="fa fa-briefcase"></i><br>Obrero<span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu">
                                 <li><a href="modulos/registro_obrero.php">Registro</a></li>
-                                <li><a href="#">Asistencia</a></li>
+                                <li><a href="modulos/asistencia.php?categoria=Obrero">Asistencia</a></li>
                             </ul>
 						</li>
 						<li>
