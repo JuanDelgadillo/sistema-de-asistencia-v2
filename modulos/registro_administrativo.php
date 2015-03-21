@@ -138,7 +138,7 @@ label{
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-print"></i><br>Reportes</a>
+                            <a href="reportes.php"><i class="fa fa-print"></i><br>Reportes</a>
                         </li>
                         <li>
                             <a href="registro_administrador.php"><i class="fa fa-user"></i><br>Administrador</a>

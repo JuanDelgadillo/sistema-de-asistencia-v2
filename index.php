@@ -114,7 +114,7 @@ if(isset($_SESSION['user']) && $_SESSION['rol'] != 1)
                             </ul>
 						</li>
 						<li>
-							<a href="#"><i class="fa fa-print"></i><br>Reportes</a>
+							<a href="modulos/reportes.php"><i class="fa fa-print"></i><br>Reportes</a>
 						</li>
 						<li>
 							<a href="modulos/registro_administrador.php"><i class="fa fa-user"></i><br>Administrador</a>
